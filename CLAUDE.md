@@ -84,7 +84,7 @@ Say "Doki" within 15 seconds; the console will print `✅ Wake word 'Doki' detec
 Doki/
   App/              DokiApp.swift, ContentView.swift
   Pipeline/         AudioSessionManager, PipelineState, AudioCaptureEngine,
-                    WakeWordDetector, AudioPipeline
+                    WakeWordDetector, VoicePipeline (orchestrator)
   Services/         DeepgramService, GroqService, ElevenLabsService (all done)
   Memory/           MemoryStore (GRDB actor, two tables), MemorySummariser
   Integrations/     CalendarService (EventKit actor — events + reminders)
