@@ -30,13 +30,14 @@ final class AudioPipeline: ObservableObject {
     private let wakeWord = WakeWordDetector()
     private let capture  = AudioCaptureEngine()
 
-    private var pipelineTask:     Task<Void, Never>?
-    private var deepgramService:  DeepgramService?
-    private var groqService:      GroqService?
+    private var pipelineTask:      Task<Void, Never>?
+    private var deepgramService:   DeepgramService?
+    private var groqService:       GroqService?
     private var elevenlabsService: ElevenLabsService?
-    private var memoryStore:      MemoryStore?
-    private var sessionID:        String = ""
-    private var memorySummary:    String = ""
+    private var memoryStore:       MemoryStore?
+    private var calendarService:   CalendarService?
+    private var sessionID:         String = ""
+    private var memorySummary:     String = ""
 
     // MARK: – Lifecycle
 
@@ -83,11 +84,16 @@ final class AudioPipeline: ObservableObject {
             print("[AudioPipeline] MemoryStore init failed (non-fatal): \(error)")
         }
 
-        let audioFrames    = capture.audioFrames
-        let detector       = wakeWord
-        let store          = memoryStore
-        let sid            = sessionID
-        let memSummary     = memorySummary
+        // Initialise calendar. Non-fatal — pipeline works without EventKit access.
+        let calendar = CalendarService()
+        await calendar.requestPermission()
+        calendarService = calendar
+
+        let audioFrames = capture.audioFrames
+        let detector    = wakeWord
+        let store       = memoryStore
+        let sid         = sessionID
+        let memSummary  = memorySummary
 
         pipelineTask = Task.detached(priority: .userInitiated) { [weak self] in
             await self?.runLoop(
@@ -97,6 +103,7 @@ final class AudioPipeline: ObservableObject {
                 groq:          groq,
                 elevenlabs:    elevenlabs,
                 store:         store,
+                calendar:      calendar,
                 sessionID:     sid,
                 memorySummary: memSummary
             )
@@ -126,6 +133,7 @@ final class AudioPipeline: ObservableObject {
         groqService       = nil
         elevenlabsService = nil
         memoryStore       = nil
+        calendarService   = nil
         state = .idle
     }
 
@@ -138,6 +146,7 @@ final class AudioPipeline: ObservableObject {
         groq:          GroqService,
         elevenlabs:    ElevenLabsService,
         store:         MemoryStore?,
+        calendar:      CalendarService,
         sessionID:     String,
         memorySummary: String
     ) async {
@@ -160,6 +169,7 @@ final class AudioPipeline: ObservableObject {
                         groq:          groq,
                         elevenlabs:    elevenlabs,
                         store:         store,
+                        calendar:      calendar,
                         sessionID:     sessionID,
                         memorySummary: memorySummary,
                         reason:        reason
@@ -189,6 +199,7 @@ final class AudioPipeline: ObservableObject {
         groq:          GroqService,
         elevenlabs:    ElevenLabsService,
         store:         MemoryStore?,
+        calendar:      CalendarService,
         sessionID:     String,
         memorySummary: String,
         reason:        SpeechCaptureSession.StopReason
@@ -211,10 +222,18 @@ final class AudioPipeline: ObservableObject {
         print("[AudioPipeline] Transcript (\(reason)): \"\(transcript)\"")
         await setState(.processing)
 
+        // Fetch fresh calendar context on every turn so additions during the
+        // session are reflected in the very next response.
+        let calendarContext = await calendar.getUpcomingEvents()
+
         // ── Step 2: Groq — generate response ─────────────────────────────────
         let response: String
         do {
-            response = try await groq.complete(transcript: transcript, memorySummary: memorySummary)
+            response = try await groq.complete(
+                transcript:      transcript,
+                memorySummary:   memorySummary,
+                calendarContext: calendarContext
+            )
         } catch GroqService.GroqError.rateLimited {
             print("[AudioPipeline] Groq rate limited")
             await setState(.idle)

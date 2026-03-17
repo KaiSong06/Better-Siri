@@ -66,6 +66,8 @@ LONG-TERM (across sessions)
    - `GroqAPIKey` — your key from console.groq.com (use an xcconfig, not hardcoded)
    - `ElevenLabsAPIKey` — your key from elevenlabs.io → Profile → API Keys (use an xcconfig)
    - `ElevenLabsVoiceID` — optional; overrides default voice (Rachel, `21m00Tcm4TlvDq8ikWAM`)
+   - `NSCalendarsFullAccessUsageDescription` (iOS 17+) / `NSCalendarsUsageDescription` (iOS 16)
+   - `NSRemindersFullAccessUsageDescription` (iOS 17+) / `NSRemindersUsageDescription` (iOS 16)
 5. Download the custom "Doki" wake-word model (`doki_ios.ppn`) from console.picovoice.ai and
    add it to the Xcode target so it's copied into the app bundle.
 6. Run on a **physical device** — AVAudioEngine mic input does not work on Simulator.
@@ -85,6 +87,7 @@ Doki/
                     WakeWordDetector, AudioPipeline
   Services/         DeepgramService, GroqService, ElevenLabsService (all done)
   Memory/           MemoryStore (GRDB actor, two tables), MemorySummariser
+  Integrations/     CalendarService (EventKit actor — events + reminders)
 DokiTests/
   WakeWordDetectorTests.swift   (device-only integration test)
 ```

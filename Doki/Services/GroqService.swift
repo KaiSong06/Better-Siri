@@ -72,8 +72,8 @@ actor GroqService {
     ///   - memorySummary: Long-term memory injected into the system prompt.
     ///                    Pass `""` when the memory store is not yet available.
     /// - Returns: A markdown-stripped, TTS-ready response string.
-    func complete(transcript: String, memorySummary: String = "") async throws -> String {
-        let messages = buildMessages(transcript: transcript, memorySummary: memorySummary)
+    func complete(transcript: String, memorySummary: String = "", calendarContext: String = "") async throws -> String {
+        let messages = buildMessages(transcript: transcript, memorySummary: memorySummary, calendarContext: calendarContext)
         let raw      = try await callAPI(messages: messages)
         let response = Self.stripMarkdown(raw)
 
@@ -112,14 +112,18 @@ actor GroqService {
 
     // MARK: – Message construction
 
-    private func buildMessages(transcript: String, memorySummary: String) -> [Message] {
+    private func buildMessages(transcript: String, memorySummary: String, calendarContext: String) -> [Message] {
         var messages: [Message] = []
 
-        // System prompt, optionally extended with the long-term memory summary.
+        // System prompt, optionally extended with memory and calendar context.
         var systemContent = Self.systemPrompt
         let trimmedMemory = memorySummary.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedMemory.isEmpty {
             systemContent += "\n\nWhat you remember about this user:\n\(trimmedMemory)"
+        }
+        let trimmedCalendar = calendarContext.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedCalendar.isEmpty {
+            systemContent += "\n\nCalendar context:\n\(trimmedCalendar)"
         }
         messages.append(Message(role: "system", content: systemContent))
 
