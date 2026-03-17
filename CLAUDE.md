@@ -50,6 +50,45 @@ LONG-TERM (across sessions)
 - Voice-first — no markdown ever reaches TTS or the user
 - Audio pipeline is always-on, runs natively off the main thread
 
+## Build
+
+1. Open Xcode, create a new **iOS App** project named `Doki` targeting the `Doki/` source directory.
+   Add a **DokiTests** test target pointing at `DokiTests/`.
+2. Add SPM dependencies via **File → Add Package Dependencies**:
+   - Porcupine (wake word): `https://github.com/Picovoice/porcupine` → product `Porcupine`
+   - GRDB (SQLite): `https://github.com/groue/GRDB.swift` → product `GRDB`
+3. In **Signing & Capabilities**, add the **Background Modes** capability and check
+   "Audio, AirPlay, and Picture in Picture" — required for background wake-word detection.
+4. In `Info.plist` add:
+   - `NSMicrophoneUsageDescription` — user-facing mic permission string
+   - `PicovoiceAccessKey` — your key from console.picovoice.ai (use an xcconfig, not hardcoded)
+   - `DeepgramAPIKey` — your key from console.deepgram.com (use an xcconfig, not hardcoded)
+   - `GroqAPIKey` — your key from console.groq.com (use an xcconfig, not hardcoded)
+   - `ElevenLabsAPIKey` — your key from elevenlabs.io → Profile → API Keys (use an xcconfig)
+   - `ElevenLabsVoiceID` — optional; overrides default voice (Rachel, `21m00Tcm4TlvDq8ikWAM`)
+5. Download the custom "Doki" wake-word model (`doki_ios.ppn`) from console.picovoice.ai and
+   add it to the Xcode target so it's copied into the app bundle.
+6. Run on a **physical device** — AVAudioEngine mic input does not work on Simulator.
+
+## Running the wake-word test
+
+In the scheme editor, add `PICOVOICE_ACCESS_KEY` to **Run → Arguments → Environment Variables**.
+Then run `WakeWordDetectorTests` on a physical device (⌘U or test diamond in gutter).
+Say "Doki" within 15 seconds; the console will print `✅ Wake word 'Doki' detected!`.
+
+## Source layout
+
+```
+Doki/
+  App/              DokiApp.swift, ContentView.swift
+  Pipeline/         AudioSessionManager, PipelineState, AudioCaptureEngine,
+                    WakeWordDetector, AudioPipeline
+  Services/         DeepgramService, GroqService, ElevenLabsService (all done)
+  Memory/           (MemoryStore via GRDB — not yet created)
+DokiTests/
+  WakeWordDetectorTests.swift   (device-only integration test)
+```
+
 ## Coding conventions
 - Swift, async/await throughout — no completion handler chains
 - Audio pipeline runs off main thread at all times
