@@ -84,7 +84,7 @@ Doki/
   Pipeline/         AudioSessionManager, PipelineState, AudioCaptureEngine,
                     WakeWordDetector, AudioPipeline
   Services/         DeepgramService, GroqService, ElevenLabsService (all done)
-  Memory/           (MemoryStore via GRDB — not yet created)
+  Memory/           MemoryStore (GRDB actor, two tables), MemorySummariser
 DokiTests/
   WakeWordDetectorTests.swift   (device-only integration test)
 ```

@@ -87,6 +87,23 @@ actor GroqService {
         return response
     }
 
+    /// Extracts key facts from a raw conversation transcript using a dedicated
+    /// extraction prompt. Bypasses `history` entirely — this is a one-shot call
+    /// that does not affect the ongoing conversation context.
+    ///
+    /// - Parameter transcript: Newline-separated "Role: content" lines from the session.
+    /// - Returns: 3–6 plain-text bullet points extracted by the model.
+    func extractFacts(from transcript: String) async throws -> String {
+        let messages: [Message] = [
+            Message(
+                role:    "system",
+                content: "You are a memory extraction assistant. Given a conversation transcript, extract key facts, names, themes, and decisions. Return 3-6 bullet points max, plain text only. Be concise."
+            ),
+            Message(role: "user", content: transcript)
+        ]
+        return try await callAPI(messages: messages, maxTokens: 150)
+    }
+
     /// Clears conversation history. Call at the end of each session so the
     /// next session starts fresh (long-term memory is handled by GRDB separately).
     func clearHistory() {
@@ -120,7 +137,7 @@ actor GroqService {
 
     // MARK: – Network
 
-    private func callAPI(messages: [Message]) async throws -> String {
+    private func callAPI(messages: [Message], maxTokens: Int = Self.maxTokens) async throws -> String {
         guard let url = URL(string: Self.endpoint) else {
             preconditionFailure("[GroqService] Invalid endpoint URL")
         }
@@ -135,7 +152,7 @@ actor GroqService {
             model:       Self.model,
             messages:    messages,
             temperature: Self.temperature,
-            maxTokens:   Self.maxTokens
+            maxTokens:   maxTokens
         )
         request.httpBody = try JSONEncoder().encode(body)
 
