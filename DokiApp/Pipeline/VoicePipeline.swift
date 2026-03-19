@@ -36,6 +36,8 @@ final class VoicePipeline: ObservableObject {
     private var elevenlabsService: ElevenLabsService?
     private var memoryStore:       MemoryStore?
     private var calendarService:   CalendarService?
+    private var contactService:    ContactService?
+    private var messageHandler:    MessageHandler?
     private var sessionID:         String = ""
     private var memorySummary:     String = ""
 
@@ -96,6 +98,18 @@ final class VoicePipeline: ObservableObject {
         await calendar.requestPermission()
         calendarService = calendar
 
+        // ── Contacts + messaging ───────────────────────────────────────────────
+        // ContactService resolves names for both calling and texting.
+        // MessageHandler persists pending message state across turns so the
+        // two-stage prepare → confirm/cancel flow works correctly.
+        // Non-fatal: pipeline works without contacts permission.
+        let contacts = ContactService()
+        await contacts.requestPermission()
+        contactService = contacts
+
+        let msgHandler = MessageHandler(contacts: contacts)
+        messageHandler = msgHandler
+
         // ── Detach the pipeline loop off main thread ───────────────────────────
         let audioFrames = capture.audioFrames
         let detector    = wakeWord
@@ -112,6 +126,8 @@ final class VoicePipeline: ObservableObject {
                 elevenlabs:    elevenlabs,
                 store:         store,
                 calendar:      calendar,
+                contacts:      contacts,
+                messageHandler: msgHandler,
                 sessionID:     sid,
                 memorySummary: memSummary
             )
@@ -141,21 +157,25 @@ final class VoicePipeline: ObservableObject {
         elevenlabsService = nil
         memoryStore       = nil
         calendarService   = nil
+        contactService    = nil
+        messageHandler    = nil
         state = .idle
     }
 
     // MARK: – Pipeline loop (off main thread)
 
     private nonisolated func runLoop(
-        audioFrames:   AsyncStream<[Int16]>,
-        detector:      WakeWordDetector,
-        deepgram:      DeepgramService,
-        groq:          GroqService,
-        elevenlabs:    ElevenLabsService,
-        store:         MemoryStore?,
-        calendar:      CalendarService,
-        sessionID:     String,
-        memorySummary: String
+        audioFrames:    AsyncStream<[Int16]>,
+        detector:       WakeWordDetector,
+        deepgram:       DeepgramService,
+        groq:           GroqService,
+        elevenlabs:     ElevenLabsService,
+        store:          MemoryStore?,
+        calendar:       CalendarService,
+        contacts:       ContactService,
+        messageHandler: MessageHandler,
+        sessionID:      String,
+        memorySummary:  String
     ) async {
         defer { Task { await deepgram.disconnect() } }
 
@@ -171,16 +191,28 @@ final class VoicePipeline: ObservableObject {
                     await deepgram.send(chunk)
                 case .complete(_, let reason):
                     session = nil
-                    await process(
-                        deepgram:      deepgram,
-                        groq:          groq,
-                        elevenlabs:    elevenlabs,
-                        store:         store,
-                        calendar:      calendar,
-                        sessionID:     sessionID,
-                        memorySummary: memorySummary,
-                        reason:        reason
+                    let followUp = await process(
+                        deepgram:       deepgram,
+                        groq:           groq,
+                        elevenlabs:     elevenlabs,
+                        store:          store,
+                        calendar:       calendar,
+                        contacts:       contacts,
+                        messageHandler: messageHandler,
+                        sessionID:      sessionID,
+                        memorySummary:  memorySummary,
+                        reason:         reason
                     )
+                    // If Doki ended with a question, skip wake word and listen immediately.
+                    if followUp && !Task.isCancelled {
+                        do {
+                            try await deepgram.connect()
+                            session = SpeechCaptureSession()
+                            await setState(.capturing)
+                        } catch {
+                            print("[VoicePipeline] Follow-up connect failed: \(error.localizedDescription)")
+                        }
+                    }
                 }
             } else {
                 // ── Stage 1: wake-word detection ──────────────────────────────
@@ -201,16 +233,21 @@ final class VoicePipeline: ObservableObject {
 
     // MARK: – Stages 3–7 (STT → memory → LLM → TTS → persist)
 
+    /// Runs stages 3–7 and returns `true` if Doki's response ended with a
+    /// question — signalling the run loop to skip wake-word detection and
+    /// open the mic immediately for the follow-up answer.
     private nonisolated func process(
-        deepgram:      DeepgramService,
-        groq:          GroqService,
-        elevenlabs:    ElevenLabsService,
-        store:         MemoryStore?,
-        calendar:      CalendarService,
-        sessionID:     String,
-        memorySummary: String,
-        reason:        SpeechCaptureSession.StopReason
-    ) async {
+        deepgram:       DeepgramService,
+        groq:           GroqService,
+        elevenlabs:     ElevenLabsService,
+        store:          MemoryStore?,
+        calendar:       CalendarService,
+        contacts:       ContactService,
+        messageHandler: MessageHandler,
+        sessionID:      String,
+        memorySummary:  String,
+        reason:         SpeechCaptureSession.StopReason
+    ) async -> Bool {
 
         // ── Stage 3: Deepgram STT ──────────────────────────────────────────────
         let transcript: String
@@ -219,11 +256,11 @@ final class VoicePipeline: ObservableObject {
         } catch DeepgramService.DeepgramError.emptyTranscript {
             print("[VoicePipeline] No speech detected, returning to idle")
             await setState(.idle)
-            return
+            return false
         } catch {
             print("[VoicePipeline] STT error: \(error.localizedDescription)")
             await setState(.idle)
-            return
+            return false
         }
 
         print("[VoicePipeline] Transcript (\(reason)): \"\(transcript)\"")
@@ -242,7 +279,7 @@ final class VoicePipeline: ObservableObject {
         // for a final spoken confirmation.
         let response: String
         do {
-            let executor = ToolExecutor(calendar: calendar)
+            let executor = ToolExecutor(calendar: calendar, contacts: contacts, messageHandler: messageHandler)
             response = try await groq.completeWithToolSupport(
                 transcript:      transcript,
                 memorySummary:   memorySummary,
@@ -252,11 +289,11 @@ final class VoicePipeline: ObservableObject {
         } catch GroqService.GroqError.rateLimited {
             print("[VoicePipeline] Groq rate limited")
             await setState(.idle)
-            return
+            return false
         } catch {
             print("[VoicePipeline] LLM error: \(error.localizedDescription)")
             await setState(.idle)
-            return
+            return false
         }
 
         // ── Stage 7a: persist turn ────────────────────────────────────────────
@@ -269,6 +306,8 @@ final class VoicePipeline: ObservableObject {
         // setState(.speaking) before speak() so the UI updates immediately.
         // The pipeline loop stays suspended for the entire fetch + playback —
         // wake-word detection is naturally blocked while Doki is speaking.
+        let endsWithQuestion = response.last == "?"
+
         await setState(.speaking)
         do {
             try await elevenlabs.speak(response)
@@ -277,6 +316,7 @@ final class VoicePipeline: ObservableObject {
         }
 
         await setState(.idle)
+        return endsWithQuestion
     }
 
     // MARK: – State helper (MainActor)

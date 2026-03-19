@@ -1,0 +1,737 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DD3E6F784A0072B4AEC10D4 /* MemorySummariser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631D0FF2B7B7C0055EC7B74 /* MemorySummariser.swift */; };
+		2E9A67064C8B867D15F6A95B /* PipelineState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CB2BD63B533ECEB84BC542 /* PipelineState.swift */; };
+		34468E0016702017855D7A02 /* AudioCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD24C7E2391C9E9F1427774A /* AudioCaptureEngine.swift */; };
+		37F80E3D97386DA93E46CE14 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0DA76AE614828E3DB84105 /* ContentView.swift */; };
+		38A7FDE83B3EE95A5E38F908 /* AudioPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA675BE586DFEBF7C9F9AA5D /* AudioPipeline.swift */; };
+		3CD3CF845A9EF4168D76BE01 /* CallHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D914565303151A4A9D87A10 /* CallHandler.swift */; };
+		44B3C9CBA592DB0E38571EE0 /* ToolExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E009D9A1D70291557F69BE2 /* ToolExecutor.swift */; };
+		4C6F7744D2853F98F74E46C0 /* ElevenLabsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747A143A04F3B2641F0E29D0 /* ElevenLabsService.swift */; };
+		4FA02239E835091E8545B844 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482AD63E99193FEFA36CC68F /* CalendarService.swift */; };
+		500D78368F89F9CBE24D8EC7 /* DokiAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6225DE4A006DEB768C531 /* DokiAppTests.swift */; };
+		53CFE84F4C381941C131FD3C /* ActivationIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD93A0E0DE8A7A0F363ADA9 /* ActivationIndicator.swift */; };
+		563FF3F3B21DBB287D3A7316 /* DokiAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F72C8BFB11673A97151FB2 /* DokiAppUITests.swift */; };
+		62837C223D09C318B8A703A5 /* Porcupine in Frameworks */ = {isa = PBXBuildFile; productRef = E5E442F62153947A60C1159C /* Porcupine */; };
+		7AAEFCDFB4EBF9FEBBE094D9 /* DokiAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1351681692A281DEA836B698 /* DokiAppUITestsLaunchTests.swift */; };
+		810A5123E3B91EF4D0F9C43F /* ContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF55EC8597431ABB704D /* ContactService.swift */; };
+		88A6EEF3413217417D6793E1 /* MemoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DEC4C0958D719C27126ABC /* MemoryStore.swift */; };
+		8D82BAF60CB90C08030F5DC0 /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1928BC45823FBDE1B6055876 /* AudioSessionManager.swift */; };
+		95AA2D02C3379A67F1FC611C /* DokiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11090E306D810F76FF23948 /* DokiApp.swift */; };
+		A10385F93E157604DCF6B0DE /* GroqService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3CB1934E2B00E5A99F5E0 /* GroqService.swift */; };
+		B304792084792962F9519984 /* SpeechCaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391677F5FB63F7DC9AB8C4A3 /* SpeechCaptureSession.swift */; };
+		C8996F545A816355DE2A3635 /* DeepgramService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5FAB493DC30FE8E93D5FF /* DeepgramService.swift */; };
+		DBBCFE012FB6715695DC962C /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = AAB8705F668AC800706715A9 /* GRDB */; };
+		E584CD0C18511FD5CDED562D /* VoicePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECCF62E23C3E54FAA6D0453 /* VoicePipeline.swift */; };
+		E76B407469EE7B3106C920B9 /* WakeWordDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E05FC94E0B721CE558D41 /* WakeWordDetector.swift */; };
+		F70E05EDE31FE76FAF8039E8 /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1711A1A6A46C7D9BAD53F780 /* MessageHandler.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2353A980BEF18035E2683F88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BB76FC31E85F3F6E555D3A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0827330A16A103EF3E3672C;
+			remoteInfo = DokiApp;
+		};
+		67F55598C5A64CFD28B1CC33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BB76FC31E85F3F6E555D3A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0827330A16A103EF3E3672C;
+			remoteInfo = DokiApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0631D0FF2B7B7C0055EC7B74 /* MemorySummariser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorySummariser.swift; sourceTree = "<group>"; };
+		0E009D9A1D70291557F69BE2 /* ToolExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolExecutor.swift; sourceTree = "<group>"; };
+		0E0DA76AE614828E3DB84105 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0EC3CB1934E2B00E5A99F5E0 /* GroqService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroqService.swift; sourceTree = "<group>"; };
+		1351681692A281DEA836B698 /* DokiAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokiAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1711A1A6A46C7D9BAD53F780 /* MessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
+		1928BC45823FBDE1B6055876 /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
+		2BD93A0E0DE8A7A0F363ADA9 /* ActivationIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivationIndicator.swift; sourceTree = "<group>"; };
+		2BE6225DE4A006DEB768C531 /* DokiAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokiAppTests.swift; sourceTree = "<group>"; };
+		391677F5FB63F7DC9AB8C4A3 /* SpeechCaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCaptureSession.swift; sourceTree = "<group>"; };
+		3D914565303151A4A9D87A10 /* CallHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHandler.swift; sourceTree = "<group>"; };
+		3F527462447FFA2E11308693 /* DokiAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DokiAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4019ABF34AADC981D6A4183D /* DokiApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DokiApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		482AD63E99193FEFA36CC68F /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
+		4C6E05FC94E0B721CE558D41 /* WakeWordDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeWordDetector.swift; sourceTree = "<group>"; };
+		54D5FAB493DC30FE8E93D5FF /* DeepgramService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepgramService.swift; sourceTree = "<group>"; };
+		747A143A04F3B2641F0E29D0 /* ElevenLabsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevenLabsService.swift; sourceTree = "<group>"; };
+		75CB2BD63B533ECEB84BC542 /* PipelineState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineState.swift; sourceTree = "<group>"; };
+		7FDB9292CC927FC6C2E5361B /* DokiAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DokiAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA675BE586DFEBF7C9F9AA5D /* AudioPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPipeline.swift; sourceTree = "<group>"; };
+		C11090E306D810F76FF23948 /* DokiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokiApp.swift; sourceTree = "<group>"; };
+		DD24C7E2391C9E9F1427774A /* AudioCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureEngine.swift; sourceTree = "<group>"; };
+		DECCF62E23C3E54FAA6D0453 /* VoicePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicePipeline.swift; sourceTree = "<group>"; };
+		E6DEC4C0958D719C27126ABC /* MemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryStore.swift; sourceTree = "<group>"; };
+		F4F72C8BFB11673A97151FB2 /* DokiAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DokiAppUITests.swift; sourceTree = "<group>"; };
+		F5C9FF55EC8597431ABB704D /* ContactService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactService.swift; sourceTree = "<group>"; };
+		"TEMP_7C36C208-109F-40B6-98D4-8D1CA5556942" /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A951B5238C8BB035E5FDE3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62837C223D09C318B8A703A5 /* Porcupine in Frameworks */,
+				DBBCFE012FB6715695DC962C /* GRDB in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3D980BD3620A7A9CB935A772 /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				DD24C7E2391C9E9F1427774A /* AudioCaptureEngine.swift */,
+				BA675BE586DFEBF7C9F9AA5D /* AudioPipeline.swift */,
+				1928BC45823FBDE1B6055876 /* AudioSessionManager.swift */,
+				75CB2BD63B533ECEB84BC542 /* PipelineState.swift */,
+				391677F5FB63F7DC9AB8C4A3 /* SpeechCaptureSession.swift */,
+				DECCF62E23C3E54FAA6D0453 /* VoicePipeline.swift */,
+				4C6E05FC94E0B721CE558D41 /* WakeWordDetector.swift */,
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		47F842BE5A07CEEBE03A87B3 = {
+			isa = PBXGroup;
+			children = (
+				B13C64CCD619536671790CC7 /* App */,
+				989C94AF96F078FEE387A16F /* DokiAppTests */,
+				E71A15DB3F15DA1DC93C0EB8 /* DokiAppUITests */,
+				CEF78D3C94347752ADA2CB25 /* Integrations */,
+				ECB49006703E6691419BB542 /* Memory */,
+				3D980BD3620A7A9CB935A772 /* Pipeline */,
+				93A70A51B3E31C22AFC081A2 /* Services */,
+				9ECC1C12E16D2A0A351CCD15 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		93A70A51B3E31C22AFC081A2 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				54D5FAB493DC30FE8E93D5FF /* DeepgramService.swift */,
+				747A143A04F3B2641F0E29D0 /* ElevenLabsService.swift */,
+				0EC3CB1934E2B00E5A99F5E0 /* GroqService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		989C94AF96F078FEE387A16F /* DokiAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				2BE6225DE4A006DEB768C531 /* DokiAppTests.swift */,
+			);
+			path = DokiAppTests;
+			sourceTree = "<group>";
+		};
+		9ECC1C12E16D2A0A351CCD15 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4019ABF34AADC981D6A4183D /* DokiApp.app */,
+				7FDB9292CC927FC6C2E5361B /* DokiAppTests.xctest */,
+				3F527462447FFA2E11308693 /* DokiAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B13C64CCD619536671790CC7 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2BD93A0E0DE8A7A0F363ADA9 /* ActivationIndicator.swift */,
+				0E0DA76AE614828E3DB84105 /* ContentView.swift */,
+				C11090E306D810F76FF23948 /* DokiApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		CEF78D3C94347752ADA2CB25 /* Integrations */ = {
+			isa = PBXGroup;
+			children = (
+				482AD63E99193FEFA36CC68F /* CalendarService.swift */,
+				3D914565303151A4A9D87A10 /* CallHandler.swift */,
+				F5C9FF55EC8597431ABB704D /* ContactService.swift */,
+				1711A1A6A46C7D9BAD53F780 /* MessageHandler.swift */,
+				0E009D9A1D70291557F69BE2 /* ToolExecutor.swift */,
+			);
+			path = Integrations;
+			sourceTree = "<group>";
+		};
+		E71A15DB3F15DA1DC93C0EB8 /* DokiAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F4F72C8BFB11673A97151FB2 /* DokiAppUITests.swift */,
+				1351681692A281DEA836B698 /* DokiAppUITestsLaunchTests.swift */,
+			);
+			path = DokiAppUITests;
+			sourceTree = "<group>";
+		};
+		ECB49006703E6691419BB542 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				E6DEC4C0958D719C27126ABC /* MemoryStore.swift */,
+				0631D0FF2B7B7C0055EC7B74 /* MemorySummariser.swift */,
+			);
+			path = Memory;
+			sourceTree = "<group>";
+		};
+		"TEMP_07DB58FE-91B3-415D-AF6B-6C4C32BF664D" /* DokiApp */ = {
+			isa = PBXGroup;
+			children = (
+				"TEMP_7C36C208-109F-40B6-98D4-8D1CA5556942" /* Secrets.xcconfig */,
+			);
+			path = DokiApp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A012FE091292D4F16FC30D30 /* DokiAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5265D1285CB011471E974E2B /* Build configuration list for PBXNativeTarget "DokiAppUITests" */;
+			buildPhases = (
+				9242B62DF40E37302DD1F246 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC8BCB711E2923EF915A10B0 /* PBXTargetDependency */,
+			);
+			name = DokiAppUITests;
+			packageProductDependencies = (
+			);
+			productName = DokiAppUITests;
+			productReference = 3F527462447FFA2E11308693 /* DokiAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		A0827330A16A103EF3E3672C /* DokiApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83B883C9CA74A581A4B8D158 /* Build configuration list for PBXNativeTarget "DokiApp" */;
+			buildPhases = (
+				3CF6B75C304FDCD0642C3742 /* Sources */,
+				6A951B5238C8BB035E5FDE3D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DokiApp;
+			packageProductDependencies = (
+				E5E442F62153947A60C1159C /* Porcupine */,
+				AAB8705F668AC800706715A9 /* GRDB */,
+			);
+			productName = DokiApp;
+			productReference = 4019ABF34AADC981D6A4183D /* DokiApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BC0BF73859BE1806C1B8518A /* DokiAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B9C9BF824DB62E8ABA3D333C /* Build configuration list for PBXNativeTarget "DokiAppTests" */;
+			buildPhases = (
+				9B6B703553803F72C580EAC2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA8F6D1DAF2439178E7FA86E /* PBXTargetDependency */,
+			);
+			name = DokiAppTests;
+			packageProductDependencies = (
+			);
+			productName = DokiAppTests;
+			productReference = 7FDB9292CC927FC6C2E5361B /* DokiAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8BB76FC31E85F3F6E555D3A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A012FE091292D4F16FC30D30 = {
+						DevelopmentTeam = K4DKFK28TA;
+						ProvisioningStyle = Automatic;
+						TestTargetID = A0827330A16A103EF3E3672C;
+					};
+					A0827330A16A103EF3E3672C = {
+						DevelopmentTeam = K4DKFK28TA;
+						ProvisioningStyle = Automatic;
+					};
+					BC0BF73859BE1806C1B8518A = {
+						DevelopmentTeam = K4DKFK28TA;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = B545BB45EC6FE0403E29C51B /* Build configuration list for PBXProject "DokiApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 47F842BE5A07CEEBE03A87B3;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				64A5F04A42E7A80834B6AC5D /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+				D99C26955E782F14B40395CC /* XCRemoteSwiftPackageReference "porcupine" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 9ECC1C12E16D2A0A351CCD15 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A0827330A16A103EF3E3672C /* DokiApp */,
+				BC0BF73859BE1806C1B8518A /* DokiAppTests */,
+				A012FE091292D4F16FC30D30 /* DokiAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CF6B75C304FDCD0642C3742 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53CFE84F4C381941C131FD3C /* ActivationIndicator.swift in Sources */,
+				34468E0016702017855D7A02 /* AudioCaptureEngine.swift in Sources */,
+				38A7FDE83B3EE95A5E38F908 /* AudioPipeline.swift in Sources */,
+				8D82BAF60CB90C08030F5DC0 /* AudioSessionManager.swift in Sources */,
+				4FA02239E835091E8545B844 /* CalendarService.swift in Sources */,
+				3CD3CF845A9EF4168D76BE01 /* CallHandler.swift in Sources */,
+				810A5123E3B91EF4D0F9C43F /* ContactService.swift in Sources */,
+				37F80E3D97386DA93E46CE14 /* ContentView.swift in Sources */,
+				C8996F545A816355DE2A3635 /* DeepgramService.swift in Sources */,
+				95AA2D02C3379A67F1FC611C /* DokiApp.swift in Sources */,
+				4C6F7744D2853F98F74E46C0 /* ElevenLabsService.swift in Sources */,
+				A10385F93E157604DCF6B0DE /* GroqService.swift in Sources */,
+				88A6EEF3413217417D6793E1 /* MemoryStore.swift in Sources */,
+				1DD3E6F784A0072B4AEC10D4 /* MemorySummariser.swift in Sources */,
+				F70E05EDE31FE76FAF8039E8 /* MessageHandler.swift in Sources */,
+				2E9A67064C8B867D15F6A95B /* PipelineState.swift in Sources */,
+				B304792084792962F9519984 /* SpeechCaptureSession.swift in Sources */,
+				44B3C9CBA592DB0E38571EE0 /* ToolExecutor.swift in Sources */,
+				E584CD0C18511FD5CDED562D /* VoicePipeline.swift in Sources */,
+				E76B407469EE7B3106C920B9 /* WakeWordDetector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9242B62DF40E37302DD1F246 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				563FF3F3B21DBB287D3A7316 /* DokiAppUITests.swift in Sources */,
+				7AAEFCDFB4EBF9FEBBE094D9 /* DokiAppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B6B703553803F72C580EAC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				500D78368F89F9CBE24D8EC7 /* DokiAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC8BCB711E2923EF915A10B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0827330A16A103EF3E3672C /* DokiApp */;
+			targetProxy = 67F55598C5A64CFD28B1CC33 /* PBXContainerItemProxy */;
+		};
+		EA8F6D1DAF2439178E7FA86E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0827330A16A103EF3E3672C /* DokiApp */;
+			targetProxy = 2353A980BEF18035E2683F88 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		16E5804196A58BC1DCC8F956 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = "TEMP_7C36C208-109F-40B6-98D4-8D1CA5556942" /* Secrets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		43FC6B9693BBB056D8E54192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4DKFK28TA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KaiSong.DokiAppTests;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DokiApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DokiApp";
+			};
+			name = Release;
+		};
+		6D7C5D3C68B72BE64CE5F2CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4DKFK28TA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KaiSong.DokiAppUITests;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DokiApp;
+			};
+			name = Debug;
+		};
+		76DEFC21814D631F90B73884 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4DKFK28TA;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DokiApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KaiSong.DokiApp;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		95321D11E7BBFC323138D436 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = "TEMP_7C36C208-109F-40B6-98D4-8D1CA5556942" /* Secrets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		9C2A358CE1B99D31DB73DA6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4DKFK28TA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KaiSong.DokiAppUITests;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DokiApp;
+			};
+			name = Release;
+		};
+		E4506C267C23556A3B55728C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4DKFK28TA;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DokiApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KaiSong.DokiApp;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FCAD700E266269D77659D1E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4DKFK28TA;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KaiSong.DokiAppTests;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DokiApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DokiApp";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5265D1285CB011471E974E2B /* Build configuration list for PBXNativeTarget "DokiAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D7C5D3C68B72BE64CE5F2CA /* Debug */,
+				9C2A358CE1B99D31DB73DA6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		83B883C9CA74A581A4B8D158 /* Build configuration list for PBXNativeTarget "DokiApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76DEFC21814D631F90B73884 /* Debug */,
+				E4506C267C23556A3B55728C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B545BB45EC6FE0403E29C51B /* Build configuration list for PBXProject "DokiApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95321D11E7BBFC323138D436 /* Debug */,
+				16E5804196A58BC1DCC8F956 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B9C9BF824DB62E8ABA3D333C /* Build configuration list for PBXNativeTarget "DokiAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCAD700E266269D77659D1E6 /* Debug */,
+				43FC6B9693BBB056D8E54192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		64A5F04A42E7A80834B6AC5D /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		D99C26955E782F14B40395CC /* XCRemoteSwiftPackageReference "porcupine" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Picovoice/porcupine";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAB8705F668AC800706715A9 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64A5F04A42E7A80834B6AC5D /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+		E5E442F62153947A60C1159C /* Porcupine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D99C26955E782F14B40395CC /* XCRemoteSwiftPackageReference "porcupine" */;
+			productName = Porcupine;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 8BB76FC31E85F3F6E555D3A5 /* Project object */;
+}

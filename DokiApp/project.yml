@@ -1,0 +1,161 @@
+name: DokiApp
+
+options:
+  bundleIdPrefix: KaiSong
+  deploymentTarget:
+    iOS: "26.2"
+  developmentLanguage: en
+  # Silence the "group has no sources" warning for the DokiApp/ inner folder
+  # (Assets + Info.plist only — handled via resources below).
+  createIntermediateGroups: true
+
+# Secrets.xcconfig is applied at the project level so its xcconfig variables
+# (API keys) are available to all targets via $(VARIABLE) substitution.
+configFiles:
+  Debug: Secrets.xcconfig
+  Release: Secrets.xcconfig
+
+packages:
+  Porcupine:
+    url: https://github.com/Picovoice/porcupine
+    minorVersion: 4.0.0
+  GRDB:
+    url: https://github.com/groue/GRDB.swift
+    branch: master
+
+targets:
+
+  # ── Main app ──────────────────────────────────────────────────────────────
+  DokiApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.2"
+
+    # XcodeGen picks up every .swift file in these folders automatically.
+    # Add a new folder here when a new top-level module is introduced.
+    sources:
+      - path: App
+      - path: Pipeline
+      - path: Services
+      - path: Integrations
+      - path: Memory
+
+    resources:
+      - path: DokiApp/Assets.xcassets
+      - path: doki_ios.ppn
+      - path: Secrets.xcconfig   # kept as a resource to match original project
+
+    info:
+      path: DokiApp/Info.plist
+      # Keys below are merged with Info.plist at build time (same as
+      # INFOPLIST_KEY_* build settings in the original project).
+      properties:
+        NSMicrophoneUsageDescription: "Doki needs the mic to hear you"
+        NSCalendarsFullAccessUsageDescription: "Doki reads your calendar to help you plan"
+        NSRemindersFullAccessUsageDescription: "Doki can add reminders for you"
+        NSContactsUsageDescription: "Doki uses your contacts to resolve names when placing calls and sending messages."
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations~iphone:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+
+    dependencies:
+      - package: Porcupine
+      - package: GRDB
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: KaiSong.DokiApp
+        DEVELOPMENT_TEAM: K4DKFK28TA
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+
+        # Assets
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+        # Swift language features (must match original project exactly)
+        SWIFT_APPROACHABLE_CONCURRENCY: YES
+        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+        STRING_CATALOG_GENERATE_SYMBOLS: YES
+
+        # Linker
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+
+        ENABLE_PREVIEWS: YES
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: DokiApp/Info.plist
+
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: "DEBUG $(inherited)"
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+        Release:
+          SWIFT_COMPILATION_MODE: wholemodule
+          VALIDATE_PRODUCT: YES
+
+  # ── Unit tests ────────────────────────────────────────────────────────────
+  DokiAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "26.2"
+    sources:
+      - path: DokiAppTests
+    dependencies:
+      - target: DokiApp
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: KaiSong.DokiAppTests
+        DEVELOPMENT_TEAM: K4DKFK28TA
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/DokiApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DokiApp"
+        SWIFT_APPROACHABLE_CONCURRENCY: YES
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+        SWIFT_EMIT_LOC_STRINGS: NO
+        STRING_CATALOG_GENERATE_SYMBOLS: NO
+
+  # ── UI tests ──────────────────────────────────────────────────────────────
+  DokiAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.2"
+    sources:
+      - path: DokiAppUITests
+    dependencies:
+      - target: DokiApp
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: KaiSong.DokiAppUITests
+        DEVELOPMENT_TEAM: K4DKFK28TA
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: DokiApp
+        SWIFT_APPROACHABLE_CONCURRENCY: YES
+        SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY: YES
+        SWIFT_EMIT_LOC_STRINGS: NO
+        STRING_CATALOG_GENERATE_SYMBOLS: NO

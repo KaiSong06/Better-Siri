@@ -104,6 +104,8 @@ actor GroqService {
         // ── First call: with tools ─────────────────────────────────────────────
         let choice = try await callAPIWithTools(messages: messages)
 
+        print("[GroqService] finishReason=\(choice.finishReason ?? "nil") toolCalls=\(choice.message.toolCalls?.count ?? 0)")
+
         let response: String
 
         if choice.finishReason == "tool_calls",
@@ -111,6 +113,7 @@ actor GroqService {
 
             // ── Parse tool calls ───────────────────────────────────────────────
             let parsed = toolCalls.compactMap { tc -> ParsedToolCall? in
+                print("[GroqService] Tool call: \(tc.function.name) args=\(tc.function.arguments)")
                 guard let data = tc.function.arguments.data(using: .utf8),
                       let args = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
                 else { return nil }
@@ -169,7 +172,15 @@ actor GroqService {
     private func buildMessages(transcript: String, memorySummary: String, calendarContext: String) -> [Message] {
         var messages: [Message] = []
 
-        var systemContent = Self.systemPrompt
+        // Inject current local date/time so the model can resolve relative expressions
+        // like "today at noon" or "tomorrow at 3pm" into correct ISO 8601 values.
+        // Use local timezone so "today" matches the user's calendar, not UTC.
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+        dateFormatter.timeZone = TimeZone.current
+        let nowString = dateFormatter.string(from: Date())
+
+        var systemContent = Self.systemPrompt + "\n\nCurrent local date and time: \(nowString). All tool call datetimes must use this same timezone offset."
         let trimmedMemory = memorySummary.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedMemory.isEmpty {
             systemContent += "\n\nWhat you remember about this user:\n\(trimmedMemory)"
@@ -308,6 +319,61 @@ actor GroqService {
                     required: ["title"]
                 )
             )
+        ),
+        ToolDefinition(
+            type: "function",
+            function: ToolDefinition.FunctionDef(
+                name: "call_contact",
+                description: "Places a phone call to a contact by name or literal phone number. Use when the user says 'call', 'ring', 'phone', or 'dial' someone.",
+                parameters: ToolParameters(
+                    type: "object",
+                    properties: [
+                        "contact_name": PropertySchema(type: "string", description: "Full or partial display name of the contact to call"),
+                        "phone_number": PropertySchema(type: "string", description: "Literal phone number to dial when no contact name is given")
+                    ],
+                    required: []
+                )
+            )
+        ),
+        ToolDefinition(
+            type: "function",
+            function: ToolDefinition.FunctionDef(
+                name: "prepare_message",
+                description: "Prepares a text message to a contact. Call this first, then ask the user to confirm or cancel before opening the compose sheet. Use when the user says 'text', 'message', or 'send a message' to someone.",
+                parameters: ToolParameters(
+                    type: "object",
+                    properties: [
+                        "contact_name": PropertySchema(type: "string", description: "Display name of the recipient contact"),
+                        "phone_number": PropertySchema(type: "string", description: "Literal phone number when no contact name is given"),
+                        "body":         PropertySchema(type: "string", description: "The exact message body to send")
+                    ],
+                    required: ["body"]
+                )
+            )
+        ),
+        ToolDefinition(
+            type: "function",
+            function: ToolDefinition.FunctionDef(
+                name: "confirm_message",
+                description: "Opens the pre-filled message compose sheet after the user confirms they want to send the pending message.",
+                parameters: ToolParameters(
+                    type: "object",
+                    properties: [:],
+                    required: []
+                )
+            )
+        ),
+        ToolDefinition(
+            type: "function",
+            function: ToolDefinition.FunctionDef(
+                name: "cancel_message",
+                description: "Cancels the pending message and dismisses any open compose sheet when the user says no or cancel.",
+                parameters: ToolParameters(
+                    type: "object",
+                    properties: [:],
+                    required: []
+                )
+            )
         )
     ]
 
@@ -346,20 +412,24 @@ actor GroqService {
         RESPONSE FORMAT
         - This is a voice interface. Responses must be conversational and brief.
         - No bullet points, no markdown, no headers, no lists.
-        - 1-3 sentences for most responses. Expand only when explicitly asked.
+        - 1-2 sentences for most responses. Expand only when explicitly asked.
 
         CONTEXT & MEMORY
         - Always resolve ambiguous pronouns and follow-up questions against prior conversation context. If the user asks "who won?" after discussing an NBA game, resolve it correctly without asking for clarification.
         - You have a summary of past conversations with this user under "What you remember about this user." Use it to personalize responses and notice patterns over time.
         - Track named entities (people, places, topics) mentioned in the current session for follow-up resolution.
+        - Only use context and memory if it is deemed relevant to the current conversation
 
         REASONING
-        - For decisions, conflicts, or open-ended thinking: engage, don't just answer. Ask one clarifying question, offer a framework, or reflect something back.
-        - For priority triage: help the user find what actually matters today — don't just list everything back at them.
-        - For daily check-ins: be proactive, notice patterns, surface relevant things the user hasn't explicitly asked about.
+        - For most requests, just answer — do not ask follow-up questions.
+        - Only ask a follow-up when you genuinely cannot fulfil the request without more information (e.g. the user says "add a meeting" with no time at all). Keep it to one short question.
+        - For decisions or open-ended thinking: offer a perspective or framework, do not ask multiple questions.
+        - For daily check-ins: surface one relevant observation, do not pepper the user with questions.
 
         INTEGRATIONS
         - You have access to the user's calendar and reminders via EventKit. Use the add_calendar_event tool to add events to the Calendar app and add_reminder to add items to the Reminders app. Reference the user's upcoming events proactively when relevant.
+        - You can place phone calls with call_contact. Use it when the user says "call", "ring", "phone", or "dial" someone.
+        - You can send text messages in two steps: first call prepare_message to resolve the recipient and queue the message, then ask the user "Should I send it?" (ending with a question mark). If they confirm, call confirm_message to open the compose sheet. If they cancel, call cancel_message. Always confirm before sending.
 
         TONE
         - Direct, warm, unhurried. Like a smart friend who happens to know a lot.
